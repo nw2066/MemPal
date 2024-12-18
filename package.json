@@ -1,0 +1,22 @@
+{
+  "name": "mempal",
+  "version": "1.0.0",
+  "dependencies": {
+    "electron": "^33.2.1",
+    "neo4j-driver": "^5.27.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "cross-env": "^7.0.3",
+    "vite": "^6.0.3"
+  },
+  "main": "src/main/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development vite & cross-env NODE_ENV=development electron .",
+    "build": "cross-env NODE_ENV=production vite build",
+    "start": "cross-env NODE_ENV=production electron ."
+  }
+}
