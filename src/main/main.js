@@ -2,12 +2,17 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { fileURLToPath } from 'url'
 import { runQuery } from '../backend/services/queryService.js'
+import { existsSync } from 'fs';
+
+console.log('Preload file exists:', existsSync(new URL('./preload.js', import.meta.url).pathname));
+
 
 // Needed because __dirname is not defined in ES modules by default:
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = join(__filename, '..')
 
 console.log('NODE_ENV at start:', process.env.NODE_ENV);
+console.log('Preload Path:', join(__dirname, 'preload.js'));
 
 
 // Determine if in development mode (if app is not packaged, it's dev)
@@ -18,8 +23,14 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: join(__dirname, 'preload.js')
+      preload: join(__dirname, 'preload.cjs'),
+      contextIsolation: true, // Secure context isolation
+      enableRemoteModule: false,
+      nodeIntegration: false, // Avoid using nodeIntegration in preload scripts
+      sandbox: false, // Ensure sandboxing doesn't interfere with ESM
+
     }
+    
   })
 
   if (isDev) {

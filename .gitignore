@@ -4,4 +4,4 @@ node_modules/
 # Build output
 dist/
 
-src/backend/
+.env

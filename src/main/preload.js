@@ -1,5 +1,6 @@
-import { contextBridge, ipcRenderer } from 'electron'
+console.log('Preload script loaded'); // Debug log to confirm loading
+import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('api', {
-  fetchData: (query) => ipcRenderer.invoke('db-query', query)
-})
+  ping: () => 'pong',
+});
