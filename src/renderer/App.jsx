@@ -3,10 +3,15 @@ import React, { useEffect, useState } from 'react';
 const App = () => {
   const [response, setResponse] = useState('');
 
-  const testPing = () => {
+  const testPing = async () => {
     if (window.api && typeof window.api.ping === 'function') {
-      const result = window.api.ping();
-      setResponse(result);
+      try {
+        const result = await window.api.ping(); // Wait for the promise to resolve
+        setResponse(result); // Update the state with the response
+      } catch (error) {
+        console.error('Error calling ping:', error);
+        setResponse('Error occurred while calling ping');
+      }
     } else {
       setResponse('API not available or ping function not found');
     }

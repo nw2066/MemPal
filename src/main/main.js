@@ -3,7 +3,7 @@ import { join } from 'path'
 import { fileURLToPath } from 'url'
 import { runQuery } from '../backend/services/queryService.js'
 import { existsSync } from 'fs';
-
+import { registerTestHandler } from './ipcHandlers/testHandler.js';
 console.log('Preload file exists:', existsSync(new URL('./preload.js', import.meta.url).pathname));
 
 
@@ -45,16 +45,13 @@ function createWindow() {
     console.log('Running in production mode: Loading from dist/renderer');
 
   }
+
+  registerTestHandler();
+
 }
 
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
-})
-
-// IPC handler for database queries
-ipcMain.handle('db-query', async (event, cypher) => {
-  const result = await runQuery(cypher)
-  return result
 })
