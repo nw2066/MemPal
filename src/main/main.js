@@ -1,9 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { fileURLToPath } from 'url'
-import { runQuery } from '../backend/services/queryService.js'
 import { existsSync } from 'fs';
-import { registerTestHandler } from './ipcHandlers/testHandler.js';
+import { registerQueryHandler } from './ipcHandlers/IPCHandler.js';
 console.log('Preload file exists:', existsSync(new URL('./preload.js', import.meta.url).pathname));
 
 
@@ -46,7 +45,7 @@ function createWindow() {
 
   }
 
-  registerTestHandler();
+  registerQueryHandler();
 
 }
 

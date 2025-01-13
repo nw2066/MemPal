@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const App = () => {
-  const [response, setResponse] = useState('');
+  const [query, setQuery] = useState('');
+  const [result, setResult] = useState(null);
 
-  const testPing = async () => {
-    if (window.api && typeof window.api.ping === 'function') {
-      try {
-        const result = await window.api.ping(); // Wait for the promise to resolve
-        setResponse(result); // Update the state with the response
-      } catch (error) {
-        console.error('Error calling ping:', error);
-        setResponse('Error occurred while calling ping');
-      }
-    } else {
-      setResponse('API not available or ping function not found');
+  const executeQuery = async () => {
+    try {
+      const response = await window.api.runQuery(query);
+      setResult(response);
+    } catch (err) {
+      console.error('Query execution error:', err);
+      setResult({ error: err.message });
     }
   };
 
   return (
     <div>
-      <h1>Electron + React App</h1>
-      <button onClick={testPing}>Test Ping</button>
-      <p>Ping Response: {response}</p>
+      <h1>Neo4j Query Executor</h1>
+      <textarea
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Enter your Cypher query here"
+      ></textarea>
+      <button onClick={executeQuery}>Run Query</button>
+      <pre>{JSON.stringify(result, null, 2)}</pre>
     </div>
   );
 };

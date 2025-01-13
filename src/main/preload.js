@@ -1,10 +1,10 @@
 console.log('Preload script loaded'); // Debug log to confirm loading
-import { registerTestApi } from './contextBridges/testAPI.js';
+import { registerApi } from './contextBridges/APIRegister.js';
 
 // ADD ANY CONTEXT BRIDGE API S HERE
 
 try {
-  registerTestApi();
+  registerApi();
   console.log('Test API registered successfully');
 } catch (error) {
   console.error('Error registering Test API:', error);
